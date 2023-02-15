@@ -1,0 +1,31 @@
+<h2>Hero</h2>
+<!-- 
+    +-------------------------+
+    | DISPLAY HERO's DATA |
+    +-------------------------+
+-->
+<!-- 
+    *ngIf le indica a Angular que muestre esta
+    sección sólo cuando el héroe ha sido seleccionado.
+-->
+<div *ngIf="hero$ | async as hero">
+    <h2>{{ hero.name | uppercase }} Details</h2>
+
+    <div>id: {{ hero.id }}</div>
+
+    <div>
+        <label for="hero-name">Hero name: </label>
+        <input id="hero-name" [(ngModel)]="hero.name" placeholder="name">
+    </div>
+    
+    <!-- 
+        Existe una relación de padre - hijo
+        entre este componente y HeroesComponent, 
+        siendo HeroesComponent el padre, ya que 
+        éste controla al hijo enviandole datos. 
+    -->
+    
+    <!-- Retornar a la vista anterior -->
+    <button type="button" (click)="gotoHeroes(hero)">Go Back</button>
+</div>
+

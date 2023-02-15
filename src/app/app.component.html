@@ -17,5 +17,26 @@
 
   Permite renderizar los componentes que están
   siendo direccionados con las rutas.
+
+  +-----------------------+
+  | ENABLE THE ANIMATIONS |
+  +-----------------------+
+
+  @routeAnimation es proveido por data de 
+  el ActivatedRoute.
+
+  The RouterOulet is exposed as an outlet template
+  variable, así que se vincula una referencia para
+  el router outlet.
+
+  La propiedad @routerAnimation esta vinculada a un 
+  método, que retorna las propiedades de animación
+  desde data proveido por la ruta primaria.
+
+  La propiedad animacion hace match en los nombres
+  de transitions, usados en slideInAnimation definido
+  en animatios.ts
 -->
-<router-outlet></router-outlet>
+<div [@routeAnimation]="getAnimationData()">
+  <router-outlet></router-outlet>
+</div>

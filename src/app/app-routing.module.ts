@@ -7,7 +7,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router";
 
 import { CrisisListComponent } from './crisis-list/crisis-list.component';
-import { HeroListComponent } from './hero-list/hero-list.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 /**
@@ -20,7 +19,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
  */
 const appRoutes: Routes = [
   {path: 'crisis-center', component: CrisisListComponent},
-  {path: 'heroes', component: HeroListComponent},
 
   /**
    * Para todas las rutas vacías redirigir 
@@ -52,6 +50,8 @@ const appRoutes: Routes = [
      * 
      * Al estar ubicado en imports de AppModule, este
      * array hace disponible el @Router for all app.
+     * 
+     * Estas rutas están a nivel raíz de la app.
      */
     RouterModule.forRoot(appRoutes, { enableTracing: true }),
   ],
