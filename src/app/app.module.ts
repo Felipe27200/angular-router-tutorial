@@ -14,8 +14,6 @@ import { AppComponent } from './app.component';
  * que importar app-routing.module.ts
  */
 import { AppRoutingModule } from './app-routing.module';
-
-import { CrisisListComponent } from './crisis-list/crisis-list.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 /**
@@ -27,6 +25,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
  * enable its routes in the app.
  */
 import { HeroesModule } from './heroes/heroes.module';
+import { CrisesModule } from './crisis-center/crises.module';
 
 /**
  * +------------+
@@ -37,11 +36,13 @@ import { HeroesModule } from './heroes/heroes.module';
  */
 import { ChildrenOutletContexts } from '@angular/router';
 import { slideInAnimation } from 'src/animation';
+import { ComposeMessageComponent } from './compose-message/compose-message.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    CrisisListComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ComposeMessageComponent,
   ],
   /**
    * Se importa en este array
@@ -62,6 +63,7 @@ import { slideInAnimation } from 'src/animation';
     BrowserAnimationsModule,
     FormsModule,
     HeroesModule,
+    CrisesModule,
     AppRoutingModule,
   ],
   providers: [],

@@ -1,0 +1,27 @@
+<h2>Crises List</h2>
+
+<ul class="crises">
+    <!-- 
+        [class.selected] -> indica que se debe añadir la clase selected si
+        la condición resulta cierta.
+    -->
+    <li *ngFor="let crisis of crises$ | async" [class.selected]="crisis.id === selectedId">
+        <!-- 
+            +-----------------------+
+            | LINK PARAMETERS ARRAY |
+            +-----------------------+
+
+            Recibe 2 argumentos, el primero es la url
+            y el segundo el valor a enviar.
+
+            Como se usa el array para definir la URL,
+            es necesario que routerLink vaya dentro 
+            de [], también.
+        -->
+        <a [routerLink]="['/crisis-center', crisis.id]">
+            <span class="badge">{{ crisis.id }}</span> {{ crisis.name }}
+        </a>
+    </li>
+</ul>
+
+<router-outlet></router-outlet>

@@ -8,6 +8,38 @@
   -->
   <a routerLink="/crisis-center" routerLinkActive="active" ariaCurrentWhenActive="page">Crisis Center</a>
   <a routerLink="/heroes" routerLinkActive="active" ariaCurrentWhenActive="page">Heroes</a>
+
+  <!-- 
+    +--------------------------+
+    | LINK TO THE NAMED OUTLET |
+    +--------------------------+
+
+    Aunque la compose hace referencia al outlet 'popup',
+    esto no es suficiente para llegar a él.
+    
+    Se debe especificar el named outlet en un array de link parameters
+    y vincularlo a RouterLink mediante una propiedad de vinculación.
+
+    Link Parameter Array -> contiene un objeto con una sola propiedad
+      'outlets' cuyo valor es otro objeto con llaves para uno o más
+      outlet names.
+      
+      En este caso, hay una sola propiedad outlet ('popup') y su valor
+      es otro 'Link Parameters Array' que específica la ruta "compose".
+  -->
+
+  <!--  
+    El objeto 'outlets' dentro de un objeto 'outer' es innecesario
+    cuando hay un sola ruta y cuando exite solo un unnamed outlet.
+
+    El router asume que los destinos de las rutas son ese unnamed 
+    primary outlet y crea esos objetos por defecto.
+    
+    Igual esto demuestra una característica de router, se puenden 
+    destinar múltiples 'outlets' con múltiples rutas en la misma
+    directiva RouterLink.
+  -->
+  <a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>
 </nav>
 
 <!-- 
@@ -40,3 +72,28 @@
 <div [@routeAnimation]="getAnimationData()">
   <router-outlet></router-outlet>
 </div>
+
+<!-- 
+  +---------------+
+  | NAMED OUTLETS |
+  +---------------+
+
+  Un template solo acepta un router-outlet sin
+  nombre, para agregar más estos deben tener un
+  nombre identificativo.
+
+  Así cada uno puede mostrar diferente contenido.
+
+  Cada named outlet tiene su propio conjunto de 
+  rutas y componentes.
+
+  Los named outlets son el destino de las rutas
+  secundarias.
+
+  Estas rutas son similares a las primarias,
+  pero difieren en: 
+    - Son independientes entre sí.
+    - Trabajan en combinación con otras routes.
+    - Son mostradas en los named outles.
+-->
+<router-outlet name="popup"></router-outlet>

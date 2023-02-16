@@ -5,8 +5,7 @@ import { NgModule } from '@angular/core';
  * routing functionality.
  */
 import { RouterModule, Routes } from "@angular/router";
-
-import { CrisisListComponent } from './crisis-list/crisis-list.component';
+import { ComposeMessageComponent } from './compose-message/compose-message.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 /**
@@ -18,8 +17,15 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
  * aplicación.
  */
 const appRoutes: Routes = [
-  {path: 'crisis-center', component: CrisisListComponent},
+  /**
+   * +---------------------+
+   * | AIM TO NAMED OUTLET |
+   * +---------------------+
 
+   * The third property refers to named outlet,
+   * this is the target of the ComposeMessageComponent:
+   */
+  {path: 'compose', component: ComposeMessageComponent, outlet: 'popup'},
   /**
    * Para todas las rutas vacías redirigir 
    * a la ruta en @redirectTo
