@@ -1,0 +1,23 @@
+<h2>Admin</h2>
+
+<nav>
+    <!-- 
+        +------------------------+
+        | ACTIVE DASHBOARD ROUTE |
+        +------------------------+
+
+        The routerLink to AdminDashboardComponent is a relative route,
+        it is a match to any route within the admin feature area.
+
+        Se usa un binding adicional para el routerLink de Dashboard,
+        [routerLinkActiveOptions="{ exact: true }"], marca el link "./"
+        como activo sólo cuando el usuario navega a la  URL "/admin" y
+        no cuando navega al resto de las child routes.
+    -->
+    <a routerLink="./" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page">Dashboard</a>
+    <a routerLink="./crises" routerLinkActive="active" ariaCurrentWhenActive="page">Manage Crises</a>
+    <a routerLink="./heroes" routerLinkActive="active" ariaCurrentWhenActive="page">Manage Heroes</a>
+</nav>
+
+<router-outlet></router-outlet>
