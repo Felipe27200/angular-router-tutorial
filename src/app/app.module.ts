@@ -7,6 +7,8 @@ import { BrowserModule } from '@angular/platform-browser';
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { Router } from '@angular/router';
+
 import { AppComponent } from './app.component';
 
 /**
@@ -16,17 +18,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
-/**
- * +----------------------------------+
- * | IMPORT THE FEATURE MODULE ROUTES |
- * +----------------------------------+
- * 
- * Import the feature module to 
- * enable its routes in the app.
- */
 import { HeroesModule } from './heroes/heroes.module';
-import { CrisesModule } from './crisis-center/crises.module';
-import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 
 /**
@@ -60,18 +52,26 @@ import { LoginComponent } from './auth/login/login.component';
    * por eso HeroesModule antecede a AppRoutingModule
    * para que sus rutas hagan match, de lo contrario,
    * puede que no lo hagan por la ruta **.
+   * 
+   * +-------------------------------+
+   * | DETACH THE FEATURE AREA ADMIN |
+   * +-------------------------------+
+   * 
+   * Con el Lazy Loading la raíz AppModule,
+   * ya no debe hacer referencia o cargar archivos
+   * de AdminModule.
    */
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HeroesModule,
-    CrisesModule,
-    AdminModule,
     AuthModule,
     AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  
+ }

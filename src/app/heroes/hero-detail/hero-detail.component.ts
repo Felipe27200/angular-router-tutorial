@@ -97,6 +97,6 @@ export class HeroDetailComponent implements OnInit {
      * enlazados en el array como segundo elemento
      * en forma de objeto.
      */
-    this.router.navigate(['/heroes', { id: heroId, foo: 'foo' }]);
+    this.router.navigate(['/superheroes', { id: heroId, foo: 'foo' }]);
   }
 }

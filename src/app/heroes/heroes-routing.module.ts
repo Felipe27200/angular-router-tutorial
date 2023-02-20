@@ -5,12 +5,14 @@ import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroListComponent } from './hero-list/hero-list.component';
 
 const routes: Routes = [
+  {path: 'heroes', redirectTo: '/superheroes'},
+  {path: 'hero/:id', redirectTo: '/superhero/:id'},
   /**
    * Se debe añadir como tercer elemento el objeto data, 
    * para las rutas a las que se aplicaran animaciones.
    */
-  {path: "heroes", component: HeroListComponent, data: { animation: 'heroes' }},
-  {path: "hero/:id", component: HeroDetailComponent, data: { animation: 'hero' }},
+  {path: "superheroes", component: HeroListComponent, data: { animation: 'heroes' }},
+  {path: "superhero/:id", component: HeroDetailComponent, data: { animation: 'hero' }},
 ];
 
 /**
