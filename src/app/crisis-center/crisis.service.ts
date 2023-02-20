@@ -1,47 +1,32 @@
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs';
+
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
-
+import { MessageService } from '../message.service';
 import { Crisis } from './crisis';
 import { CRISES } from './mock-crises';
 
-import { MessageService } from '../message.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class CrisisService {
+  static nextCrisisId = 100;
+  private crises$: BehaviorSubject<Crisis[]> = new BehaviorSubject<Crisis[]>(CRISES);
 
   constructor(private messageService: MessageService) { }
 
-  getCrises(): Observable<Crisis[]>
+  getCrises()
   {
-    const crises = of(CRISES);
-
-    this.messageService.add("Crisis Service: fetched crises");
-
-    return crises;
+    return this.crises$;
   }
 
-  getHero(id: number | string): Observable<Crisis>
+  getCrisis(id: number | string)
   {
-    /**
-     * Exclamation mark makes that variables
-     * never have a null or undefined value.
-     * 
-     * Is known as NON-NULL ASSERTION OPERATOR.
-     * 
-     * This is necessary because TypeScript doesn't
-     * accept possible variables with null o undefined
-     * value.
-     * 
-     * El + antesd de id, hace la conversión de String a int.
-     */
-    const crisis = CRISES.find(c => c.id === +id)!;
-    
-    this.messageService.add(`crisisService: fetched crisis id = ${id}`);
-
-    return of(crisis);
+    return this.getCrises().pipe(
+      map(crises => crises.find(crisis => crisis.id === +id))
+    );
   }
 }

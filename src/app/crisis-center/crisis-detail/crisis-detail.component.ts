@@ -1,18 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { Crisis } from '../crisis';
-import { CrisisService } from '../crisis.service';
-/**
- * ParamMap is an API, it provides methods to handle
- * parameter access for both route parameters and query parameters.
- */
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
 
 /**
  * Se necesitara más adelante para procesar los 
  * parámetros de ruta Observable.
  */
-import { Observable, switchMap } from 'rxjs';
+import { Observable} from 'rxjs';
+
+import { Crisis } from '../crisis';
+import { DialogService } from 'src/app/dialog.service';
 
 
 @Component({
@@ -22,7 +19,8 @@ import { Observable, switchMap } from 'rxjs';
 })
 
 export class CrisisDetailComponent implements OnInit {
-  crisis$!: Observable<Crisis>;
+  crisis!: Crisis;
+  editName = '';
 
   /**
    * Se debe inyectar los servicios en campos privados en el
@@ -31,55 +29,37 @@ export class CrisisDetailComponent implements OnInit {
   constructor(
     /** 
      * - ActivatedRoute -> Contiene la información de la 
-     * ruta para esta intancia de HeroDetailComponent.
+     *   ruta para esta intancia de CrisisDetailComponent.
      */ 
     private route: ActivatedRoute,
     private router: Router,
-    private crisisService: CrisisService
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void 
   {
     /**
-     * +-------------------------------+
-     * | RETRIEVE THE URL's PARAMETERS |
-     * +-------------------------------+
-     *
-     * It uses the ActivateRoute service to retrieve the
-     * parameters for the route, pull (sacar) the hero
-     * id from the parameters, and retrieve the hero to 
-     * display.
+     * +------------------------------------------+
+     * | RETRIEVE THE DATA FROM THE CURRENT ROUTE |
+     * +------------------------------------------+
      * 
-     * When the map changes, @paraMap gets the id parameter
-     * from the changed parameters in the URL.
+     * Este componente ya no debería hacer la busqueda
+     * de crisis.
+     * 
+     * Ahora obtiene el 'crisis' desde la propiedad
+     * ActivatedRoute.data.crises.
      */
-    this.crisis$ = this.route.paramMap.pipe(
-      /**
-       * El operador switchMap hace 2 cosas:
-       * 
-       * 1. It flattens the Observable<Hero> that HeroService
-       * returns and cancels previous pending (pendientes) request.
-       * 
-       * 2. Si el usuario vuelve a navegar a esta ruta con un nuevo
-       * id, mientras HeroService aún está recuperando el viejo id,
-       * switchMap descartará la petición anterior y trabajará con
-       * la actual.
-       */
-      switchMap((params: ParamMap) => 
-        /**
-         * params.get() -> returns the paramater with the name
-         * specified in the arguments, if exists returns its value,
-         * or null its not exists.
-         * 
-         * Returns the first element if the parameter is an array.
-         */
-        this.crisisService.getHero(params.get('id')!))
-    );
+    this.route.data.subscribe(data => {
+      const crisis: Crisis = data['crisis'];
+
+      this.editName = crisis.name;
+      this.crisis = crisis;
+    });
   }
 
-  gotoCrises(crisis: Crisis) 
+  gotoCrises() 
   {
-    const crisisId = crisis ? crisis.id : null;
+    const crisisId = this.crisis ? this.crisis.id : null;
 
     /**
      * +---------------------+
@@ -111,11 +91,17 @@ export class CrisisDetailComponent implements OnInit {
     this.gotoCrises();
   }
 
+  /**
+   * Allow to wait the user's answer and mantain or discard
+   * the changes made for the users.
+   */
   canDeactivate(): Observable<boolean> | boolean {
     // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
-    if (!this.crisis || this.crisis.name === this.editName) {
+    if (!this.crisis || this.crisis.name === this.editName) 
+    {
       return true;
     }
+
     // Otherwise ask the user with the dialog service and return its
     // observable which resolves to true or false when the user decides
     return this.dialogService.confirm('Discard changes?');

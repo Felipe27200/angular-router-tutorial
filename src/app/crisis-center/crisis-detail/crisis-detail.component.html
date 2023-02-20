@@ -8,15 +8,13 @@
     *ngIf le indica a Angular que muestre esta
     sección sólo cuando el héroe ha sido seleccionado.
 -->
-<div *ngIf="crisis$ | async as crisis">
-    <h2>{{ crisis.name | uppercase }} Details</h2>
+<div *ngIf="crisis">
+    <h3>{{ editName }} Details</h3>
 
-    <div>id: {{ crisis.id }}</div>
+    <p>id: {{ crisis.id }}</p>
 
-    <div>
-        <label for="crisis-name">crisis name: </label>
-        <input id="crisis-name" [(ngModel)]="crisis.name" placeholder="name">
-    </div>
+    <label for="crisis-name">crisis name: </label>
+    <input id="crisis-name" [(ngModel)]="editName" placeholder="name">
     
     <!-- 
         Existe una relación de padre - hijo
@@ -24,8 +22,9 @@
         siendo HeroesComponent el padre, ya que 
         éste controla al hijo enviandole datos. 
     -->
-    
-    <!-- Retornar a la vista anterior -->
-    <button type="button" (click)="gotoCrises(crisis)">Go Back</button>
+    <div>
+        <button type="button" (click)="save()">Save</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+    </div>
 </div>
 

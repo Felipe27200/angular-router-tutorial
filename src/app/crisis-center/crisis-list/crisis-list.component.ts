@@ -25,7 +25,6 @@ import { CrisisService } from '../crisis.service';
 
 export class CrisisListComponent implements OnInit {
   crises$!: Observable<Crisis[]>;
-
   selectedId = 0;
 
   constructor(

@@ -6,6 +6,9 @@ import { CrisisListComponent } from './crisis-list/crisis-list.component';
 import { CrisisDetailComponent } from './crisis-detail/crisis-detail.component';
 import { CrisisCenterHomeComponent } from './crisis-center-home/crisis-center-home.component';
 
+import { canDeactivateGuard } from '../can-deactivate.guard';
+import { crisisDetailResolver } from './crisis-detail-resolver';
+
 const crisisCenterRoutes: Routes = [
   {
     path: 'crisis-center',
@@ -46,7 +49,22 @@ const crisisCenterRoutes: Routes = [
         children: [
           {
             path: ':id',
-            component: CrisisDetailComponent
+            component: CrisisDetailComponent,
+            /**
+             * Se incluye el canDeactivate a la ruta con
+             * el fin, de controlar si el usuario desea o
+             * no guardar los datos editados, y poder manejarlo
+             * de forma asíncrona.
+             */
+            canDeactivate: [canDeactivateGuard],
+            /**
+             * El router llama implícitamente al @resolver en caso
+             * de que el usuario pueda navegar fuera, por lo que no
+             * es necesario codificarlo de forma explícita.
+             */
+            resolve: {
+              crisis: crisisDetailResolver
+            }
           },
           {
             path: '',

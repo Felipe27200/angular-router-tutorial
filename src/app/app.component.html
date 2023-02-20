@@ -1,100 +1,102 @@
-<h1>Angular Router</h1>
+<div class="wrapper">
+  <h1>Angular Router</h1>
 
-<nav>
-  <!-- 
-    +------------------------------------+
-    | LINKS TO ROUTING TO THE COMPONENTS |
-    +------------------------------------+
-  -->
-  <a routerLink="/crisis-center" routerLinkActive="active" ariaCurrentWhenActive="page">Crisis Center</a>
-  <a routerLink="/heroes" routerLinkActive="active" ariaCurrentWhenActive="page">Heroes</a>
-  <a routerLink="/admin" routerLinkActive="active" ariaCurrentWhenActive="page">Admin</a>
-
-  <!-- 
-    +--------------------------+
-    | LINK TO THE NAMED OUTLET |
-    +--------------------------+
-
-    Aunque la compose hace referencia al outlet 'popup',
-    esto no es suficiente para llegar a él.
-    
-    Se debe especificar el named outlet en un array de link parameters
-    y vincularlo a RouterLink mediante una propiedad de vinculación.
-
-    Link Parameter Array -> contiene un objeto con una sola propiedad
-      'outlets' cuyo valor es otro objeto con llaves para uno o más
-      outlet names.
+  <nav>
+    <!-- 
+      +------------------------------------+
+      | LINKS TO ROUTING TO THE COMPONENTS |
+      +------------------------------------+
+    -->
+    <a routerLink="/crisis-center" routerLinkActive="active" ariaCurrentWhenActive="page">Crisis Center</a>
+    <a routerLink="/heroes" routerLinkActive="active" ariaCurrentWhenActive="page">Heroes</a>
+    <a routerLink="/admin" routerLinkActive="active" ariaCurrentWhenActive="page">Admin</a>
+  
+    <!-- 
+      +--------------------------+
+      | LINK TO THE NAMED OUTLET |
+      +--------------------------+
+  
+      Aunque la compose hace referencia al outlet 'popup',
+      esto no es suficiente para llegar a él.
       
-      En este caso, hay una sola propiedad outlet ('popup') y su valor
-      es otro 'Link Parameters Array' que específica la ruta "compose".
+      Se debe especificar el named outlet en un array de link parameters
+      y vincularlo a RouterLink mediante una propiedad de vinculación.
+  
+      Link Parameter Array -> contiene un objeto con una sola propiedad
+        'outlets' cuyo valor es otro objeto con llaves para uno o más
+        outlet names.
+        
+        En este caso, hay una sola propiedad outlet ('popup') y su valor
+        es otro 'Link Parameters Array' que específica la ruta "compose".
+    -->
+  
+    <!--  
+      El objeto 'outlets' dentro de un objeto 'outer' es innecesario
+      cuando hay un sola ruta y cuando exite solo un unnamed outlet.
+  
+      El router asume que los destinos de las rutas son ese unnamed 
+      primary outlet y crea esos objetos por defecto.
+      
+      Igual esto demuestra una característica de router, se puenden 
+      destinar múltiples 'outlets' con múltiples rutas en la misma
+      directiva RouterLink.
+    -->
+    <a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>
+  </nav>
+  
+  <!-- 
+    +-------------------------------------+
+    | PLACEHOLDER FOR RENDERED COMPONENTS |
+    +-------------------------------------+
+  
+    Permite renderizar los componentes que están
+    siendo direccionados con las rutas.
+  
+    +-----------------------+
+    | ENABLE THE ANIMATIONS |
+    +-----------------------+
+  
+    @routeAnimation es proveido por data de 
+    el ActivatedRoute.
+  
+    The RouterOulet is exposed as an outlet template
+    variable, así que se vincula una referencia para
+    el router outlet.
+  
+    La propiedad @routerAnimation esta vinculada a un 
+    método, que retorna las propiedades de animación
+    desde data proveido por la ruta primaria.
+  
+    La propiedad animacion hace match en los nombres
+    de transitions, usados en slideInAnimation definido
+    en animatios.ts
   -->
-
-  <!--  
-    El objeto 'outlets' dentro de un objeto 'outer' es innecesario
-    cuando hay un sola ruta y cuando exite solo un unnamed outlet.
-
-    El router asume que los destinos de las rutas son ese unnamed 
-    primary outlet y crea esos objetos por defecto.
-    
-    Igual esto demuestra una característica de router, se puenden 
-    destinar múltiples 'outlets' con múltiples rutas en la misma
-    directiva RouterLink.
+  <div [@routeAnimation]="getAnimationData()">
+    <router-outlet></router-outlet>
+  </div>
+  
+  <!-- 
+    +---------------+
+    | NAMED OUTLETS |
+    +---------------+
+  
+    Un template solo acepta un router-outlet sin
+    nombre, para agregar más estos deben tener un
+    nombre identificativo.
+  
+    Así cada uno puede mostrar diferente contenido.
+  
+    Cada named outlet tiene su propio conjunto de 
+    rutas y componentes.
+  
+    Los named outlets son el destino de las rutas
+    secundarias.
+  
+    Estas rutas son similares a las primarias,
+    pero difieren en: 
+      - Son independientes entre sí.
+      - Trabajan en combinación con otras routes.
+      - Son mostradas en los named outles.
   -->
-  <a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>
-</nav>
-
-<!-- 
-  +-------------------------------------+
-  | PLACEHOLDER FOR RENDERED COMPONENTS |
-  +-------------------------------------+
-
-  Permite renderizar los componentes que están
-  siendo direccionados con las rutas.
-
-  +-----------------------+
-  | ENABLE THE ANIMATIONS |
-  +-----------------------+
-
-  @routeAnimation es proveido por data de 
-  el ActivatedRoute.
-
-  The RouterOulet is exposed as an outlet template
-  variable, así que se vincula una referencia para
-  el router outlet.
-
-  La propiedad @routerAnimation esta vinculada a un 
-  método, que retorna las propiedades de animación
-  desde data proveido por la ruta primaria.
-
-  La propiedad animacion hace match en los nombres
-  de transitions, usados en slideInAnimation definido
-  en animatios.ts
--->
-<div [@routeAnimation]="getAnimationData()">
-  <router-outlet></router-outlet>
+  <router-outlet name="popup"></router-outlet>
 </div>
-
-<!-- 
-  +---------------+
-  | NAMED OUTLETS |
-  +---------------+
-
-  Un template solo acepta un router-outlet sin
-  nombre, para agregar más estos deben tener un
-  nombre identificativo.
-
-  Así cada uno puede mostrar diferente contenido.
-
-  Cada named outlet tiene su propio conjunto de 
-  rutas y componentes.
-
-  Los named outlets son el destino de las rutas
-  secundarias.
-
-  Estas rutas son similares a las primarias,
-  pero difieren en: 
-    - Son independientes entre sí.
-    - Trabajan en combinación con otras routes.
-    - Son mostradas en los named outles.
--->
-<router-outlet name="popup"></router-outlet>

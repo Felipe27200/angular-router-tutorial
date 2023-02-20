@@ -18,7 +18,7 @@
             es necesario que routerLink vaya dentro 
             de [], también.
         -->
-        <a [routerLink]="['/crisis-center', crisis.id]">
+        <a [routerLink]="[crisis.id]">
             <span class="badge">{{ crisis.id }}</span> {{ crisis.name }}
         </a>
     </li>
